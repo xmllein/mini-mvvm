@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mini-vue</title>
+</head>
+
+<body>
+  <div id="app">
+    <h3>{{title}}</h3>
+    <input type="text" v-model="me.message">
+    <p class="container"><span>{{ me.message }}</span></p>
+  </div>
+  <!-- defineProperty() 案例 -->
+  <div id="apps">
+    <input type="text" class="test">
+    <div class="msg"></div>
+  </div>
+</body>
+<script>
+  // defineProperty() 案例
+  ; (function () {
+    let txt = document.querySelector('#apps .test')
+    let msg = document.querySelector('#apps .msg')
+    let person = {
+      name: 'xiaoming',
+      age: 26,
+      gender: 'male'
+    }
+
+    // 添加input 事件
+    txt.addEventListener('input', function (e) {
+      person.name = e.target.value
+    })
+
+    // 通过 defineProperty() 方法监听对象属性的变化
+    Object.defineProperty(person, 'name', {
+      get: function () {
+        console.log('get')
+        return this._name
+      },
+      set: function (val) {
+        console.log('set')
+        this._name = val
+        txt.value = val
+        msg.innerHTML = val
+      }
+    })
+
+  })()
+</script>
+
+<script src="./index_proxy.js"></script>
+
+<script>
+
+  const app = new MiniVue({
+    el: '#app',
+    data: {
+      title: 'Hello MiniVue 框架',
+      me: {
+        message: 'Hello message'
+      }
+    }
+  })
+
+</script>
+
+</html>
